@@ -1,9 +1,9 @@
 package instruction;
 
 public class Instruction {
-    private int format, opcode, dest, op1, op2;
+    private short format, opcode, dest, op1, op2;
 
-    public Instruction(int format, int opcode, int dest, int op1, int op2) {
+    public Instruction(short format, short opcode, short dest, short op1, short op2) {
         this.format = format;
         this.opcode = opcode;
         this.dest = dest;
@@ -11,23 +11,23 @@ public class Instruction {
         this.op2 = op2;
     }
 
-    public int getFormat() {
+    public short getFormat() {
         return format;
     }
 
-    public int getOpcode() {
+    public short getOpcode() {
         return opcode;
     }
 
-    public int getDest() {
+    public short getDest() {
         return dest;
     }
 
-    public int getOp1() {
+    public short getOp1() {
         return op1;
     }
 
-    public int getOp2() {
+    public short getOp2() {
         return op2;
     }
 }
