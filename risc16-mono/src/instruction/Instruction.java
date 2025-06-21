@@ -30,4 +30,15 @@ public class Instruction {
     public short getOp2() {
         return op2;
     }
+
+    @Override
+    public String toString() {
+        return "Instruction {" +
+                "format=" + format +
+                ", opcode=" + opcode +
+                ", dest=" + dest +
+                ", op1=" + op1 +
+                ", op2=" + op2 +
+                '}';
+    }
 }
