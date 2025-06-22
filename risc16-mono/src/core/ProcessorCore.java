@@ -2,6 +2,7 @@ package core;
 
 import hardware.CPU;
 import hardware.Memory;
+import hardware.Registers;
 import instruction.Instruction;
 
 import java.io.DataInputStream;
@@ -11,6 +12,7 @@ import java.io.IOException;
 public class ProcessorCore {
     private CPU cpu = new CPU();
     private Memory memory = new Memory(64 * 1024);
+    private Registers registers = new Registers(10);
 
     private DecoderUnit decoder = new DecoderUnit();
 
@@ -23,11 +25,13 @@ public class ProcessorCore {
         while(cpu.isRunning()) {
             short rawInstruction = memory.load(cpu.getPC());
             cpu.incrementPC();
-            System.out.println(rawInstruction);
+            cpu.incrementCycle();
 
             Instruction decodedInstruction = decoder.decode(rawInstruction);
             System.out.println(decodedInstruction);
             if(decodedInstruction.getFormat() == 0 && decodedInstruction.getOpcode() == 63) {
+                System.out.println(registers);
+                System.out.printf("CPU has executed %d cycle(s).\n", cpu.getCycles());
                 cpu.setRunning(false);
             }
         }
