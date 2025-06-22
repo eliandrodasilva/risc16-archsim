@@ -2,6 +2,7 @@ package hardware;
 
 public class CPU {
     private short pc;
+    private int cycle;
     private boolean running;
 
     public short getPC() {
@@ -14,6 +15,14 @@ public class CPU {
 
     public void incrementPC() {
         pc++;
+    }
+
+    public int getCycles() {
+        return cycle;
+    }
+
+    public void incrementCycle() {
+        cycle++;
     }
 
     public boolean isRunning() {
