@@ -33,12 +33,7 @@ public class Instruction {
 
     @Override
     public String toString() {
-        return "Instruction {" +
-                "format=" + format +
-                ", opcode=" + opcode +
-                ", dest=" + dest +
-                ", op1=" + op1 +
-                ", op2=" + op2 +
-                '}';
+        return String.format("Format: %s | Opcode: %2s | Dest: %5d | Op1: %5d | Op2: %5d",
+                format, opcode, dest, op1, op2);
     }
 }
