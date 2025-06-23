@@ -15,6 +15,7 @@ public class ProcessorCore {
     private Registers registers = new Registers(8);
 
     private DecoderUnit decoder = new DecoderUnit();
+    private ExecutionUnit executor = new ExecutionUnit();
 
     public void run(String binaryPath) {
         loadBinary(binaryPath);
@@ -28,13 +29,13 @@ public class ProcessorCore {
             cpu.incrementCycle();
 
             Instruction decodedInstruction = decoder.decode(rawInstruction);
+            System.out.printf("[PC]: " + (cpu.getPC()-1) + " | ");
             System.out.println(decodedInstruction);
-            if(decodedInstruction.getFormat() == 0 && decodedInstruction.getOpcode() == 63) {
-                System.out.println(registers);
-                System.out.printf("CPU has executed %d cycle(s).\n", cpu.getCycles());
-                cpu.setRunning(false);
-            }
+
+            executor.execute(decodedInstruction, cpu, registers, memory);
         }
+        System.out.println(registers);
+        System.out.printf("CPU has executed %d cycle(s).\n", cpu.getCycles());
     }
 
     private void loadBinary(String binaryPath) {
