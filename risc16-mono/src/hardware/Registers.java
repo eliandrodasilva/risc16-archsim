@@ -11,8 +11,8 @@ public class Registers {
         return registers[index];
     }
 
-    public void setRegisters(int index, int value) {
-        this.registers[index] = value;
+    public void setRegisters(int index, int dataIn) {
+        this.registers[index] = dataIn;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class Registers {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < registers.length; i++) {
             sb.append(String.format("[r%-2d]: %5d  ", i, registers[i]));
-            if ((i + 1) % 5 == 0) {
+            if ((i + 1) % 4 == 0) {
                 sb.append("\n");
             }
         }
