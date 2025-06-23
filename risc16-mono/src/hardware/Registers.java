@@ -19,7 +19,7 @@ public class Registers {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < registers.length; i++) {
-            sb.append(String.format("[r%-2d]: %5d  ", i, registers[i]));
+            sb.append(String.format("[r%d]: %5d  ", i, registers[i]));
             if ((i + 1) % 4 == 0) {
                 sb.append("\n");
             }
