@@ -29,9 +29,8 @@ public class ProcessorCore {
             cpu.incrementCycle();
 
             Instruction decodedInstruction = decoder.decode(rawInstruction);
-            System.out.printf("[PC]: " + (cpu.getPC()-1) + " | ");
+            System.out.printf("[PC]: %2d | ", cpu.getPC()-1);
             System.out.println(decodedInstruction);
-
             executor.execute(decodedInstruction, cpu, registers, memory);
         }
         System.out.println(registers);
