@@ -12,7 +12,7 @@ import java.io.IOException;
 public class ProcessorCore {
     private CPU cpu = new CPU();
     private Memory memory = new Memory(64 * 1024);
-    private Registers registers = new Registers(10);
+    private Registers registers = new Registers(8);
 
     private DecoderUnit decoder = new DecoderUnit();
 
