@@ -13,9 +13,14 @@ public class ProcessorCore {
     private CPU cpu = new CPU();
     private Memory memory = new Memory(64 * 1024);
     private Registers registers = new Registers(8);
+    private final boolean verbose;
 
     private InstructionDecoder decoder = new InstructionDecoder();
     private InstructionExecutor executor = new InstructionExecutor();
+
+    public ProcessorCore(boolean verbose) {
+        this.verbose = verbose;
+    }
 
     public void run(String binaryPath) {
         loadBinary(binaryPath);
@@ -27,14 +32,34 @@ public class ProcessorCore {
             short rawInstruction = memory.load(cpu.getPC());
             cpu.incrementPC();
             cpu.incrementCycle();
+            cpu.incrementFetchCount();
 
             Instruction decodedInstruction = decoder.decode(rawInstruction);
-            System.out.printf("[PC]: %2d | ", cpu.getPC()-1);
-            System.out.println(decodedInstruction);
+
+            if (verbose) {
+                System.out.printf("[PC]: %2d | ", cpu.getPC()-1);
+                System.out.println(decodedInstruction);
+            }
+
             executor.execute(decodedInstruction, cpu, registers, memory);
+            cpu.incrementInstructionCount();
         }
-        System.out.println(registers);
-        System.out.printf("CPU has executed %d cycle(s).\n", cpu.getCycles());
+
+        dump();
+    }
+
+    private void dump() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("\n--- Processor Execution Dump ---\n");
+        sb.append(String.format("%-21s : %4d\n", "CPU Cycles", cpu.getCycles()));
+        sb.append(String.format("%-21s : %4d\n", "Fetches", cpu.getFetchCount()));
+        sb.append(String.format("%-21s : %4d\n", "Instructions Executed", cpu.getInstructionCount()));
+
+        sb.append("\nFinal Register State:\n");
+        sb.append(registers.toString());
+
+        System.out.println(sb);
     }
 
     private void loadBinary(String binaryPath) {
