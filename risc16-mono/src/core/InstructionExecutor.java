@@ -5,7 +5,7 @@ import hardware.Memory;
 import hardware.Registers;
 import instruction.Instruction;
 
-public class ExecutionUnit {
+public class InstructionExecutor {
     public void execute(Instruction instruction, CPU cpu, Registers registers, Memory memory) {
         if(instruction.getFormat() == 0) {
             executeFormatR(instruction, cpu, registers, memory);

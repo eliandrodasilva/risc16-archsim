@@ -3,7 +3,7 @@ package core;
 import instruction.Instruction;
 import util.BitUtils;
 
-public class DecoderUnit {
+public class InstructionDecoder {
     public Instruction decode(short raw) {
         short format = BitUtils.extractBits(raw, 15, 1);
         if(format == 0) {

@@ -14,8 +14,8 @@ public class ProcessorCore {
     private Memory memory = new Memory(64 * 1024);
     private Registers registers = new Registers(8);
 
-    private DecoderUnit decoder = new DecoderUnit();
-    private ExecutionUnit executor = new ExecutionUnit();
+    private InstructionDecoder decoder = new InstructionDecoder();
+    private InstructionExecutor executor = new InstructionExecutor();
 
     public void run(String binaryPath) {
         loadBinary(binaryPath);
