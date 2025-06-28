@@ -28,7 +28,24 @@ public class InstructionExecutor {
             case 15 ->  registers.setRegisters(instruction.getDest(), memory.load(operand1));
             case 16 -> memory.store(operand1, operand2);
             case 63 -> {
-                if (operand1 == 0) cpu.setRunning(false);
+                switch (operand1) {
+                    case 0 -> cpu.setRunning(false);
+                    case 1 -> {
+                        short address = (short) registers.getRegister(1);
+                        short value;
+
+                        StringBuilder sb = new StringBuilder();
+
+                        while ((value = memory.load(address)) != 0) {
+                            sb.append((char) value);
+                            address++;
+                        }
+
+                        System.out.print(sb);
+                    }
+                    case 2 -> System.out.println();
+                    case 3 -> System.out.print(registers.getRegister(1));
+                }
             }
         }
     }
