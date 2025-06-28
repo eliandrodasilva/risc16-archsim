@@ -2,36 +2,36 @@ package core;
 
 import hardware.CPU;
 import hardware.Memory;
-import hardware.Registers;
+import hardware.RegisterFile;
 import instruction.Instruction;
 
 public class InstructionExecutor {
-    public void execute(Instruction instruction, CPU cpu, Registers registers, Memory memory) {
+    public void execute(Instruction instruction, CPU cpu, RegisterFile registerFile, Memory memory) {
         if(instruction.getFormat() == 0) {
-            executeFormatR(instruction, cpu, registers, memory);
+            executeFormatR(instruction, cpu, registerFile, memory);
         } else {
-            executeFormatI(instruction, cpu, registers);
+            executeFormatI(instruction, cpu, registerFile);
         }
     }
 
-    private void executeFormatR(Instruction instruction, CPU cpu, Registers registers, Memory memory) {
-        short operand1 = (short) registers.getRegister(instruction.getOp1());
-        short operand2 = (short) registers.getRegister(instruction.getOp2());
+    private void executeFormatR(Instruction instruction, CPU cpu, RegisterFile registerFile, Memory memory) {
+        short operand1 = (short) registerFile.getRegister(instruction.getOp1());
+        short operand2 = (short) registerFile.getRegister(instruction.getOp2());
 
         switch (instruction.getOpcode()) {
-            case 0 -> registers.setRegisters(instruction.getDest(), (operand1 + operand2));
-            case 1 -> registers.setRegisters(instruction.getDest(), (operand1 - operand2));
-            case 2 -> registers.setRegisters(instruction.getDest(), (operand1 * operand2));
-            case 3 -> registers.setRegisters(instruction.getDest(), (operand1 / operand2));
-            case 4 -> registers.setRegisters(instruction.getDest(), (operand1 == operand2) ? 1 : 0);
-            case 5 -> registers.setRegisters(instruction.getDest(), (operand1 != operand2) ? 1 : 0);
-            case 15 ->  registers.setRegisters(instruction.getDest(), memory.load(operand1));
+            case 0 -> registerFile.setRegister(instruction.getDest(), (operand1 + operand2));
+            case 1 -> registerFile.setRegister(instruction.getDest(), (operand1 - operand2));
+            case 2 -> registerFile.setRegister(instruction.getDest(), (operand1 * operand2));
+            case 3 -> registerFile.setRegister(instruction.getDest(), (operand1 / operand2));
+            case 4 -> registerFile.setRegister(instruction.getDest(), (operand1 == operand2) ? 1 : 0);
+            case 5 -> registerFile.setRegister(instruction.getDest(), (operand1 != operand2) ? 1 : 0);
+            case 15 ->  registerFile.setRegister(instruction.getDest(), memory.load(operand1));
             case 16 -> memory.store(operand1, operand2);
             case 63 -> {
                 switch (operand1) {
                     case 0 -> cpu.setRunning(false);
                     case 1 -> {
-                        short address = (short) registers.getRegister(1);
+                        short address = (short) registerFile.getRegister(1);
                         short value;
 
                         StringBuilder sb = new StringBuilder();
@@ -44,19 +44,19 @@ public class InstructionExecutor {
                         System.out.print(sb);
                     }
                     case 2 -> System.out.println();
-                    case 3 -> System.out.print(registers.getRegister(1));
+                    case 3 -> System.out.print(registerFile.getRegister(1));
                 }
             }
         }
     }
 
-    private void executeFormatI(Instruction instruction, CPU cpu, Registers registers) {
+    private void executeFormatI(Instruction instruction, CPU cpu, RegisterFile registerFile) {
         switch (instruction.getOpcode()) {
             case 0 -> cpu.setPC(instruction.getOp1());
             case 1 -> {
-                if (registers.getRegister(instruction.getDest()) == 1) cpu.setPC(instruction.getOp1());
+                if (registerFile.getRegister(instruction.getDest()) == 1) cpu.setPC(instruction.getOp1());
             }
-            case 3 -> registers.setRegisters(instruction.getDest(), instruction.getOp1());
+            case 3 -> registerFile.setRegister(instruction.getDest(), instruction.getOp1());
         }
     }
 }

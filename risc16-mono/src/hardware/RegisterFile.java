@@ -1,9 +1,9 @@
 package hardware;
 
-public class Registers {
+public class RegisterFile {
     private int[] registers;
 
-    public Registers(int amount) {
+    public RegisterFile(int amount) {
         this.registers = new int[amount];
     }
 
@@ -11,7 +11,7 @@ public class Registers {
         return registers[index];
     }
 
-    public void setRegisters(int index, int dataIn) {
+    public void setRegister(int index, int dataIn) {
         this.registers[index] = dataIn;
     }
 

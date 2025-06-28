@@ -2,7 +2,7 @@ package core;
 
 import hardware.CPU;
 import hardware.Memory;
-import hardware.Registers;
+import hardware.RegisterFile;
 import instruction.Instruction;
 
 import java.io.DataInputStream;
@@ -12,7 +12,7 @@ import java.io.IOException;
 public class ProcessorCore {
     private CPU cpu = new CPU();
     private Memory memory = new Memory(64 * 1024);
-    private Registers registers = new Registers(8);
+    private RegisterFile registerFile = new RegisterFile(8);
     private final boolean verbose;
 
     private InstructionDecoder decoder = new InstructionDecoder();
@@ -41,7 +41,7 @@ public class ProcessorCore {
                 System.out.println(decodedInstruction);
             }
 
-            executor.execute(decodedInstruction, cpu, registers, memory);
+            executor.execute(decodedInstruction, cpu, registerFile, memory);
             cpu.incrementInstructionCount();
         }
 
@@ -57,7 +57,7 @@ public class ProcessorCore {
         sb.append(String.format("%-21s : %4d\n", "Instructions Executed", cpu.getInstructionCount()));
 
         sb.append("\nFinal Register State:\n");
-        sb.append(registers.toString());
+        sb.append(registerFile.toString());
 
         System.out.println(sb);
     }
