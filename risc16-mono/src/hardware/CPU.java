@@ -3,6 +3,8 @@ package hardware;
 public class CPU {
     private short pc;
     private int cycle;
+    private int fetchCount;
+    private int instructionCount;
     private boolean running;
 
     public short getPC() {
@@ -23,6 +25,22 @@ public class CPU {
 
     public void incrementCycle() {
         cycle++;
+    }
+
+    public int getFetchCount() {
+        return fetchCount;
+    }
+
+    public void incrementFetchCount() {
+        fetchCount++;
+    }
+
+    public int getInstructionCount() {
+        return instructionCount;
+    }
+
+    public void incrementInstructionCount() {
+        instructionCount++;
     }
 
     public boolean isRunning() {
