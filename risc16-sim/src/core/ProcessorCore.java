@@ -4,6 +4,8 @@ import hardware.CPU;
 import hardware.Memory;
 import hardware.RegisterFile;
 import instruction.Instruction;
+import instruction.InstructionDecoder;
+import instruction.InstructionExecutor;
 
 import java.io.DataInputStream;
 import java.io.FileInputStream;

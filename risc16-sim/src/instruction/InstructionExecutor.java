@@ -1,9 +1,8 @@
-package core;
+package instruction;
 
 import hardware.CPU;
 import hardware.Memory;
 import hardware.RegisterFile;
-import instruction.Instruction;
 
 public class InstructionExecutor {
     public void execute(Instruction instruction, CPU cpu, RegisterFile registerFile, Memory memory) {

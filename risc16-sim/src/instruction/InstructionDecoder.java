@@ -1,6 +1,5 @@
-package core;
+package instruction;
 
-import instruction.Instruction;
 import util.BitUtils;
 
 public class InstructionDecoder {
