@@ -45,21 +45,7 @@ public class ProcessorCore {
             cpu.incrementInstructionCount();
         }
 
-        dump();
-    }
-
-    private void dump() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("\n--- Processor Execution Dump ---\n");
-        sb.append(String.format("%-21s : %4d\n", "CPU Cycles", cpu.getCycles()));
-        sb.append(String.format("%-21s : %4d\n", "Fetches", cpu.getFetchCount()));
-        sb.append(String.format("%-21s : %4d\n", "Instructions Executed", cpu.getInstructionCount()));
-
-        sb.append("\nFinal Register State:\n");
-        sb.append(registerFile.toString());
-
-        System.out.println(sb);
+        cpu.dump(registerFile);
     }
 
     private void loadBinary(String binaryPath) {
