@@ -14,14 +14,9 @@ abstract class Processor {
     protected final CPU cpu = new CPU();
     protected final Memory memory = new Memory(64 * 1024);
     protected final RegisterFile registerFile = new RegisterFile(8);
-    protected final boolean verbose;
 
     protected final InstructionDecoder decoder = new InstructionDecoder();
     protected final InstructionExecutor executor = new InstructionExecutor();
-
-    public Processor(boolean verbose) {
-        this.verbose = verbose;
-    }
 
     public abstract void run(String binaryPath);
 

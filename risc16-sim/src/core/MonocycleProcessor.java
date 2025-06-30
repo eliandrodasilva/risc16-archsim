@@ -3,8 +3,10 @@ package core;
 import instruction.Instruction;
 
 public class MonocycleProcessor extends Processor {
+    private final boolean verbose;
+
     public MonocycleProcessor(boolean verbose) {
-        super(verbose);
+        this.verbose = verbose;
     }
 
     @Override
