@@ -1,6 +1,6 @@
 package app;
 
-import core.ProcessorCore;
+import core.MonocycleProcessor;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +12,7 @@ public class Main {
 //            verbose = true;
 //        }
 
-        ProcessorCore processorCore = new ProcessorCore(verbose);
-        processorCore.run("bin/ps.bin");
+        MonocycleProcessor monocycleProcessor = new MonocycleProcessor(verbose);
+        monocycleProcessor.run("bin/ps.bin");
     }
 }
