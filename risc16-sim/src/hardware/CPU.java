@@ -7,19 +7,6 @@ public class CPU {
     private int instructionCount;
     private boolean running;
 
-    public void dump(RegisterFile registerFile) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("\n--- Processor Execution Dump ---\n");
-        sb.append(String.format("%-21s : %4d\n", "CPU Cycles", getCycles()));
-        sb.append(String.format("%-21s : %4d\n", "Fetches", getFetchCount()));
-        sb.append(String.format("%-21s : %4d\n", "Instructions Executed", getInstructionCount()));
-
-        sb.append("\nFinal Register State:\n");
-        sb.append(registerFile.toString());
-
-        System.out.println(sb);
-    }
 
     public short getPC() {
         return pc;

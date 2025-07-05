@@ -1,12 +1,15 @@
 package core;
 
 import instruction.Instruction;
+import util.SimulationReporter;
 
 public class MonocycleProcessor extends Processor {
     private final boolean verbose;
+    private final SimulationReporter reporter;
 
     public MonocycleProcessor(boolean verbose) {
         this.verbose = verbose;
+        this.reporter = new SimulationReporter();
     }
 
     @Override
@@ -33,6 +36,6 @@ public class MonocycleProcessor extends Processor {
             cpu.incrementInstructionCount();
         }
 
-        cpu.dump(registerFile);
+        reporter.generateReport(cpu, registerFile);
     }
 }
