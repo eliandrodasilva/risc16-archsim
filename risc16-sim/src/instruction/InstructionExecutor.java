@@ -42,8 +42,8 @@ public class InstructionExecutor {
 
                         System.out.print(sb);
                     }
-                    case 2 -> outputBuffer.append("\n");// System.out.println();
-                    case 3 -> outputBuffer.append(registerFile.getRegister(1)); // System.out.print(registerFile.getRegister(1));
+                    case 2 -> outputBuffer.append("\n");
+                    case 3 -> outputBuffer.append(registerFile.getRegister(1));
                 }
             }
         }
