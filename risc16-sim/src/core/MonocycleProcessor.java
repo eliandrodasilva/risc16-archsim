@@ -32,10 +32,11 @@ public class MonocycleProcessor extends Processor {
                 System.out.println(decodedInstruction);
             }
 
-            executor.execute(decodedInstruction, cpu, registerFile, memory);
+            executor.execute(decodedInstruction, cpu, registerFile, memory, outputBuffer);
             cpu.incrementInstructionCount();
         }
 
+        flush();
         reporter.generateReport(cpu, registerFile);
     }
 }

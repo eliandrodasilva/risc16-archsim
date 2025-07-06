@@ -5,15 +5,15 @@ import hardware.Memory;
 import hardware.RegisterFile;
 
 public class InstructionExecutor {
-    public void execute(Instruction instruction, CPU cpu, RegisterFile registerFile, Memory memory) {
+    public void execute(Instruction instruction, CPU cpu, RegisterFile registerFile, Memory memory, StringBuilder outputBuffer) {
         if(instruction.getFormat() == 0) {
-            executeFormatR(instruction, cpu, registerFile, memory);
+            executeFormatR(instruction, cpu, registerFile, memory, outputBuffer);
         } else {
             executeFormatI(instruction, cpu, registerFile);
         }
     }
 
-    private void executeFormatR(Instruction instruction, CPU cpu, RegisterFile registerFile, Memory memory) {
+    private void executeFormatR(Instruction instruction, CPU cpu, RegisterFile registerFile, Memory memory, StringBuilder outputBuffer) {
         short operand1 = (short) registerFile.getRegister(instruction.getOp1());
         short operand2 = (short) registerFile.getRegister(instruction.getOp2());
 
@@ -36,14 +36,14 @@ public class InstructionExecutor {
                         StringBuilder sb = new StringBuilder();
 
                         while ((value = memory.load(address)) != 0) {
-                            sb.append((char) value);
+                            outputBuffer.append((char) value);
                             address++;
                         }
 
                         System.out.print(sb);
                     }
-                    case 2 -> System.out.println();
-                    case 3 -> System.out.print(registerFile.getRegister(1));
+                    case 2 -> outputBuffer.append("\n");// System.out.println();
+                    case 3 -> outputBuffer.append(registerFile.getRegister(1)); // System.out.print(registerFile.getRegister(1));
                 }
             }
         }

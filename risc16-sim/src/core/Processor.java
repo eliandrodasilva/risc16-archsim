@@ -17,8 +17,14 @@ abstract class Processor {
 
     protected final InstructionDecoder decoder = new InstructionDecoder();
     protected final InstructionExecutor executor = new InstructionExecutor();
+    protected final StringBuilder outputBuffer = new StringBuilder();
 
     public abstract void run(String binaryPath);
+
+    protected void flush() {
+        System.out.print(outputBuffer);
+        outputBuffer.setLength(0);
+    }
 
     protected void loadBinary(String binaryPath) {
         try {
