@@ -33,14 +33,11 @@ public class InstructionExecutor {
                         short address = (short) registerFile.getRegister(1);
                         short value;
 
-                        StringBuilder sb = new StringBuilder();
 
                         while ((value = memory.load(address)) != 0) {
                             outputBuffer.append((char) value);
                             address++;
                         }
-
-                        System.out.print(sb);
                     }
                     case 2 -> outputBuffer.append("\n");
                     case 3 -> outputBuffer.append(registerFile.getRegister(1));
