@@ -27,7 +27,7 @@ public class TwoBitsPredictor {
         int index = pc % size;
         short nextPC = (short)(pc + 1);
 
-        if(branches[index] != pc || branchTargetBuffer[index] == -1) {
+        if(branches[index] != pc) {
             return nextPC;
         }
         if(branchHistoryTable[index] >= 2) {
