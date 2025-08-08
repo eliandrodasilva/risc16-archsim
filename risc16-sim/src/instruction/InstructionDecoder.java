@@ -23,4 +23,12 @@ public class InstructionDecoder {
             );
         }
     }
+
+    public short[] preDecode(short raw) {
+        short format = BitUtils.extractBits(raw, 15, 1);
+        short opcode = BitUtils.extractBits(raw, 13, 2);
+        short dest = BitUtils.extractBits(raw, 10, 3);
+        short op1 = BitUtils.extractBits(raw, 0, 10);
+        return new short[]{format, opcode, op1, dest};
+    }
 }
