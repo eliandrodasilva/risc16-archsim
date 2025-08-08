@@ -29,14 +29,6 @@ public class PipelineProcessor extends Processor {
             if(pipeline.decodedInstruction != null) {
                 Instruction decodedInstruction = pipeline.decodedInstruction;
                 executor.execute(decodedInstruction, cpu, registerFile, memory, outputBuffer);
-
-                if(decodedInstruction.getFormat() == 1 && decodedInstruction.getOpcode() == 0 && !predictor.isLastPredictionTaken()) {
-                    // JUMP incond
-                    pipeline.clear();
-                    cpu.setPC(predictor.getLastPC());
-                } else if(decodedInstruction.getFormat() == 1 && decodedInstruction.getOpcode() == 1) {
-                    // JUMP cond
-                }
             }
 
             // --- DECODE --- (ID)
@@ -49,11 +41,17 @@ public class PipelineProcessor extends Processor {
             }
 
             // --- FETCH --- (IF)
-            short pcNow = cpu.getPC();
-            short raw   = memory.load(cpu.getPC());
+            short[] preDecoded = decoder.preDecode(memory.load(cpu.getPC()));
 
-            cpu.setPC(predictor.predict(cpu.getPC()));
-            nextPipeline.setFetch((memory.load(cpu.getPC())));
+            if (preDecoded[0] == 1 && preDecoded[1] == 0) {
+                cpu.setPC(preDecoded[2]);
+            } else if (preDecoded[0] == 1 && preDecoded[1] == 1) {
+                // JUMP cond
+                cpu.setPC(preDecoded[2]);
+            }
+            short raw = memory.load(cpu.getPC());
+            nextPipeline.setFetch(raw);
+            cpu.incrementPC();
 
 
             cpu.incrementFetchCount();
