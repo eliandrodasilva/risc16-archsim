@@ -1,6 +1,7 @@
 package app;
 
 import core.MonocycleProcessor;
+import core.PipelineProcessor;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +13,10 @@ public class Main {
 //            verbose = true;
 //        }
 
-        MonocycleProcessor monocycleProcessor = new MonocycleProcessor(verbose);
-        monocycleProcessor.run("bin/ps.bin");
+//        MonocycleProcessor monocycleProcessor = new MonocycleProcessor(verbose);
+//        monocycleProcessor.run("bin/count.bin");
+
+//        PipelineProcessor pipelineProcessor = new PipelineProcessor(false);
+//        pipelineProcessor.run("bin/ps.bin");
     }
 }
