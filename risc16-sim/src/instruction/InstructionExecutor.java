@@ -5,6 +5,8 @@ import hardware.Memory;
 import hardware.RegisterFile;
 
 public class InstructionExecutor {
+    private boolean taken;
+
     public void execute(Instruction instruction, CPU cpu, RegisterFile registerFile, Memory memory, StringBuilder outputBuffer) {
         if(instruction.getFormat() == 0) {
             executeFormatR(instruction, cpu, registerFile, memory, outputBuffer);
@@ -50,9 +52,17 @@ public class InstructionExecutor {
         switch (instruction.getOpcode()) {
             case 0 -> cpu.setPC(instruction.getOp1());
             case 1 -> {
-                if (registerFile.getRegister(instruction.getDest()) == 1) cpu.setPC(instruction.getOp1());
+                taken = false;
+                if (registerFile.getRegister(instruction.getDest()) == 1) {
+                    cpu.setPC(instruction.getOp1());
+                    taken = true;
+                }
             }
             case 3 -> registerFile.setRegister(instruction.getDest(), instruction.getOp1());
         }
+    }
+
+    public boolean getTaken() {
+        return taken;
     }
 }
