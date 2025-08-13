@@ -37,6 +37,6 @@ public class MonocycleProcessor extends Processor {
         }
 
         flush();
-        reporter.generateReport(cpu, registerFile, null);
+        reporter.generateReport(cpu, memory, registerFile, null);
     }
 }
