@@ -1,11 +1,12 @@
 package util;
 
 import hardware.CPU;
+import hardware.Memory;
 import hardware.RegisterFile;
 import predictor.TwoBitsPredictor;
 
 public class SimulationReporter {
-    public void generateReport(CPU cpu, RegisterFile registerFile, TwoBitsPredictor predictor) {
+    public void generateReport(CPU cpu, Memory memory, RegisterFile registerFile, TwoBitsPredictor predictor) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("\n--- Processor Execution Dump ---\n");
@@ -27,6 +28,8 @@ public class SimulationReporter {
 
         sb.append("\nFinal Register State:\n");
         sb.append(registerFile.toString());
+
+        sb.append(memory.toString());
 
         System.out.println(sb);
     }
