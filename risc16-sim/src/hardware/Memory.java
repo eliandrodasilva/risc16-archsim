@@ -21,7 +21,7 @@ public class Memory {
         sb.append("\n--- Memory Dump ---\n");
 
         for (int i = 0; i < 15 && i < memory.length; i++) {
-            sb.append(String.format("[m%-3d]: %6d ", i, memory[i]));
+            sb.append(String.format("[m%-2d]: %6d ", i, memory[i]));
             if ((i + 1) % 4 == 0) {
                 sb.append("\n");
             }
