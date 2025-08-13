@@ -79,6 +79,6 @@ public class PipelineProcessor extends Processor {
 
             cpu.incrementCycle();
         }
-        reporter.generateReport(cpu, registerFile, predictor);
+        reporter.generateReport(cpu, memory, registerFile, predictor);
     }
 }
