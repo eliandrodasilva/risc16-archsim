@@ -1,13 +1,17 @@
 package predictor;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
 public class TwoBitsPredictor {
     private final short[] branchHistoryTable;
     private final int size;
     private boolean verbose = false;
 
-    private short lastPC = -1;
     private short lastPredictedTarget = -1;
-    private boolean lastPredictionTaken = false;
+    private Short lastPcBackup = null;
+    private final Queue<Short> queueLastPc = new ArrayDeque<>();
+    private final Queue<Boolean> queueLastPredictionTaken = new ArrayDeque<>();
     private boolean wasLastPredictionCorrect;
 
     private int totalPredictions = 0;
@@ -32,12 +36,12 @@ public class TwoBitsPredictor {
         short nextPC = (short)(pc + 1);
         totalPredictions++;
 
-        lastPC = pc;
+        queueLastPc.add(pc);
 
         // Se o estado é >= 2 (Weakly Taken ou Strongly Taken), então jumpa
         if(branchHistoryTable[index] >= 2) {
             lastPredictedTarget = target;
-            lastPredictionTaken = true;
+            queueLastPredictionTaken.add(true);
             if(verbose) {
                 System.out.println(String.format("[BRANCH PREDICTED]: TAKEN     | PC: %d | Target: %d | Predicted Jump: YES", pc, target));
             }
@@ -45,10 +49,11 @@ public class TwoBitsPredictor {
         } else {
             // Estado < 2 (Strongly Not Taken ou Weakly Not Taken), não jumpa
             lastPredictedTarget = nextPC;
-            lastPredictionTaken = false;
+            queueLastPredictionTaken.add(false);
             if(verbose) {
                 System.out.println(String.format("[BRANCH PREDICTED]: NOT TAKEN | PC: %d | Target: %d | Predicted Jump: NO", pc, target));
-            }            return nextPC;
+            }
+            return nextPC;
         }
 
     }
@@ -56,7 +61,7 @@ public class TwoBitsPredictor {
     public void update(short pc, boolean taken) {
         int index = pc % size;
 
-        wasLastPredictionCorrect = (lastPredictionTaken == taken);
+        wasLastPredictionCorrect = (queueLastPredictionTaken.poll() == taken);
 
         if (wasLastPredictionCorrect) {
             correctPredictions++;
@@ -76,7 +81,12 @@ public class TwoBitsPredictor {
     }
 
     public short getLastPC() {
-        return lastPC;
+        Short lastPc = queueLastPc.poll();
+        if (lastPc != null) {
+            lastPcBackup = lastPc;
+            return lastPc;
+        }
+        return lastPcBackup;
     }
 
     public int getTotalPredictions() {
@@ -89,10 +99,6 @@ public class TwoBitsPredictor {
 
     public int getIncorrectPredictions() {
         return incorrectPredictions;
-    }
-
-    public boolean getLastPredictionTaken() {
-        return lastPredictionTaken;
     }
 
     public void setVerbose(boolean verbose) {
