@@ -9,7 +9,6 @@ public class PipelineProcessor extends Processor {
     private final SimulationReporter reporter;
     private final TwoBitsPredictor predictor = new TwoBitsPredictor();
     private final Pipeline pipeline = new Pipeline();
-    private final Pipeline nextPipeline = new Pipeline();
 
     public PipelineProcessor(boolean verbose) {
         this.verbose = verbose;
@@ -41,7 +40,6 @@ public class PipelineProcessor extends Processor {
                         }
                         cpu.setPC(predictor.getLastPC());
                         pipeline.clear();
-                        nextPipeline.clear();
                     }
                 }
                 cpu.incrementInstructionCount();
@@ -49,10 +47,10 @@ public class PipelineProcessor extends Processor {
 
             // --- DECODE --- (ID)
             if(pipeline.fetch != null) {
-                nextPipeline.setDecodedInstruction(decoder.decode(pipeline.fetch));
+                pipeline.setDecodedInstruction(decoder.decode(pipeline.fetch));
                 if (verbose) {
                     System.out.printf("[PC DECODED]: %2d | ", cpu.getPC()-1);
-                    System.out.println(nextPipeline.decodedInstruction);
+                    System.out.println(pipeline.decodedInstruction);
                 }
             }
 
@@ -60,7 +58,7 @@ public class PipelineProcessor extends Processor {
             short[] preDecoded = decoder.preDecode(memory.load(cpu.getPC()));
 
             short raw = memory.load(cpu.getPC());
-            nextPipeline.setFetch(raw);
+            pipeline.setFetch(raw);
 
             if (preDecoded[0] == 1 && preDecoded[1] == 0) {
                 cpu.setPC(preDecoded[2]);
@@ -68,15 +66,11 @@ public class PipelineProcessor extends Processor {
                 // JUMP cond
                 short predictorPC = predictor.predict(cpu.getPC(), preDecoded[2]);
                 cpu.setPC(predictorPC);
+            } else {
+                cpu.incrementPC();
             }
 
             cpu.incrementFetchCount();
-            cpu.incrementPC();
-
-            // --- UPDATE PIPELINE ---
-            pipeline.copyFrom(nextPipeline);
-            nextPipeline.clear();
-
             cpu.incrementCycle();
         }
         reporter.generateReport(cpu, memory, registerFile, predictor);
