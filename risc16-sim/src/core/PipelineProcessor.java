@@ -35,8 +35,8 @@ public class PipelineProcessor extends Processor {
 
                     if(!predictor.isLastPredictionCorrect()){
                         if(verbose) {
-                            System.out.println(String.format("[BRANCH MISPREDICT]: PC: %d | Target: %d | Predicted: %s | Actual: %s", cpu.getPC()-1, decodedInstruction.getOp1(), predictor.getLastPredictionTaken() ? "TAKEN" : "NOT TAKEN", executor.getTaken() ? "TAKEN" : "NOT TAKEN"));
-                            System.out.println(String.format("[PIPELINE FLUSHED]: Misprediction at PC: %d | Flushing invalid instructions", cpu.getPC()-1));
+                            System.out.printf("[BRANCH MISPREDICT]: PC: %d | Target: %d | Predicted: %s | Actual: %s%n", cpu.getPC()-1, decodedInstruction.getOp1(), (!executor.getTaken()) ? "TAKEN" : "NOT TAKEN", executor.getTaken() ? "TAKEN" : "NOT TAKEN");
+                            System.out.printf("[PIPELINE FLUSHED]: Misprediction at PC: %d | Flushing invalid instructions%n", cpu.getPC()-1);
                         }
                         cpu.setPC(predictor.getLastPC());
                         pipeline.clear();
